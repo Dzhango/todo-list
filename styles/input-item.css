@@ -1,0 +1,21 @@
+div {
+    min-width: 18rem;
+}
+
+.textarea {
+    border: 1px solid #ccc;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0.3rem;
+    display: block;
+    /* width: 100%;s */
+    overflow: hidden;
+    resize: both;
+    min-height: 1rem;
+    line-height: 1.25rem;
+}
+
+.textarea[contenteditable]:empty::before {
+    content: "New Todo";
+    color: gray;
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="preload" href="/styles/list-item.css" as="style">
+</head>
+<!-- 
+    1. Fix 50 characters large text
+    2. Add localstorage persistance (think about schema and multiple list options)
+    3. Deploy on github to test on mobile device
+    4. Add menu buttons functionality (nightmode, menu popup, newItem)
+    5. Add mobile swiping
+ -->
+
+<body>
+    <noscript>Please enable JavaScript</noscript>
+    <script defer src="main.js" type="module"></script>
+    <header>
+        <p>Today</p>
+        <div class="hide">
+            <i class="fa-solid fa-caret-down fa-lg"></i>
+        </div>
+    </header>
+    <main>
+        <template id="list-item">
+            <link rel="stylesheet" href="/styles/list-item.css">
+            <div>
+                <i class="fa fa-bars bars" aria-hidden="true"></i>
+                <input type="checkbox" class="customCheckbox">
+                <p>
+                    <slot name="text">Default Text</slot>
+                </p>
+                <i class="fa fa-trash trash" aria-hidden="true"></i>
+            </div>
+        </template>
+        <template id="menu">
+            <link rel="stylesheet" href="/styles/menu.css">
+            <div id="dropdown">
+                <ul>
+                    <li>Today</li>
+                    <li>Done</li>
+                    <li>New List +</li>
+                </ul>
+            </div>
+        </template>
+        <template id="input-item">
+            <link rel="stylesheet" href="/styles/input-item.css">
+            <div id="input-container">
+                <span class="textarea" role="textbox" contenteditable></span>
+                <!-- <input type="text" placeholder="New todo " autofocus maxlength="50"> -->
+            </div>
+        </template>
+        <ul>
+            <list-item>
+                <span slot="text" contenteditable="true">First component todo.</span>
+            </list-item>
+            <menu-block></menu-block>
+            <input-item></input-item>
+        </ul>
+    </main>
+    <footer>
+        <div class="menu" id="nightmode "> <i class="fas fa-moon fa-lg "></i></div>
+        <div class="menu" id="more "><i class="fa-solid fa-caret-up fa-lg "></i></div>
+        <div class="menu" id="add "> <i class="fa fa-plus fa-lg " aria-hidden="true "></i></div>
+
+        <!-- <i class="fas fa-moon "></i>
+        <i class="fa-solid fa-caret-up "></i> -->
+        <!-- <i class="fa-solid fa-caret-down "></i> -->
+
+        <!-- <button>Show Lists</button>
+        <button>Add item</button>
+        <button>Night mode</button> -->
+
+    </footer>
+</body>
+
+</html>
