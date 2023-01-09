@@ -1,12 +1,21 @@
 /* DROPDOWN OPTIONS */
 
 #dropdown {
+    display: none;
     margin: auto;
     width: 7.5rem;
     cursor: pointer;
-    position: fixed;
-    bottom: 4rem;
+    position: absolute;
+    /* animation: menuTransition; */
+    /* animation-duration: 2s; */
+    /* max-width: 100px; */
     /* border: 1px solid black; */
+    /* transition-timing-function: ease-out;
+    /* A litttttle slower on the way in */
+    /* transition: 2s; */
+    /* Move into place */
+    /* transform: translateY(0); */
+    /* transition: opacity 1s ease-in-out; */
 }
 
 #dropdown ul {
@@ -14,13 +23,41 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 0;
+    gap: 0.3rem;
 }
 
 #dropdown ul li {
+    max-width: 5rem;
     border-bottom: 0.5px solid white;
     color: white;
     width: 100%;
     text-align: center;
-    padding: 0.3rem;
-    background-color: black;
+    padding: 0.5rem;
+    animation-name: menuTransition;
+    animation-duration: 1s;
+    border-radius: 0.5rem;
+    background-color: grey;
 }
+
+
+/* @keyframes menuTransiton {
+    50% {
+        bottom: 2rem;
+    }
+    100% {
+        bottom: 4rem;
+    }
+} */
+
+
+/* @keyframes menuTransition {
+    50% {
+        background-color: lightgrey;
+    }
+    100% {
+        bottom: 4rem;
+        ;
+        background-color: grey;
+    }
+} */

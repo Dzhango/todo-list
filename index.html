@@ -12,18 +12,18 @@
     <link rel="preload" href="./styles/list-item.css" as="style">
 </head>
 <!-- 
-    1. Fix 50 characters large text
-    2. Add localstorage persistance (think about schema and multiple list options)
-    3. Deploy on github to test on mobile device
-    4. Add menu buttons functionality (nightmode, menu popup, newItem)
+    2. Alter schema to store 
+    4. Add menu nightmode
     5. Add mobile swiping
+    1. Fix double enter bug (empty todo)
+    2. In todo: swipe right move to next bucket, swipe left perm delete
  -->
 
 <body>
     <noscript>Please enable JavaScript</noscript>
     <script defer src="main.js" type="module"></script>
     <header>
-        <p>Today</p>
+        <p>Todo</p>
         <div class="hide">
             <i class="fa-solid fa-caret-down fa-lg"></i>
         </div>
@@ -44,39 +44,37 @@
             <link rel="stylesheet" href="./styles/menu.css">
             <div id="dropdown">
                 <ul>
-                    <li>Today</li>
+                    <li>Inbox</li>
+                    <li>Todo</li>
                     <li>Done</li>
-                    <li>New List +</li>
                 </ul>
             </div>
         </template>
         <template id="input-item">
             <link rel="stylesheet" href="./styles/input-item.css">
-            <div id="input-container">
-                <span class="textarea" role="textbox" contenteditable></span>
-                <!-- <input type="text" placeholder="New todo " autofocus maxlength="50"> -->
-            </div>
+            <textarea name="input" id="textarea"></textarea>
         </template>
         <ul>
             <list-item>
                 <span slot="text" contenteditable="true">First component todo.</span>
             </list-item>
-            <menu-block></menu-block>
-            <input-item></input-item>
         </ul>
+        <input-item></input-item>
     </main>
     <footer>
-        <div class="menu" id="nightmode "> <i class="fas fa-moon fa-lg "></i></div>
-        <div class="menu" id="more "><i class="fa-solid fa-caret-up fa-lg "></i></div>
-        <div class="menu" id="add "> <i class="fa fa-plus fa-lg " aria-hidden="true "></i></div>
+        <div id="dropdown">
+            <ul>
+                <li>Inbox</li>
+                <li>Todo</li>
+                <li>Done</li>
+            </ul>
+        </div>
+        <div class="menu" id="nightmode"><i class="fas fa-moon fa-lg nightmode"></i></div>
+        <div class="menu" id="more">
+            <i class="fa fa-caret-up fa-lg more"></i>
+        </div>
 
-        <!-- <i class="fas fa-moon "></i>
-        <i class="fa-solid fa-caret-up "></i> -->
-        <!-- <i class="fa-solid fa-caret-down "></i> -->
-
-        <!-- <button>Show Lists</button>
-        <button>Add item</button>
-        <button>Night mode</button> -->
+        <div class="menu" id="add"> <i class="fa fa-plus fa-lg add" aria-hidden="true "></i></div>
 
     </footer>
 </body>

@@ -14,15 +14,13 @@ export default class ListItem extends HTMLElement {
 
     connectedCallback() {
         const checkbox = this.shadowRoot.querySelector("input");
-        const input = document.querySelector("input")
+        // const textArea = document.querySelector("input-item");   
         checkbox.addEventListener('click', (e) => {
             this.setAttribute("checked", `${e.target.checked}`);
         })
         this.addEventListener('keydown', (e) => {
-            console.log(e.key);
             if (e.key === 'Enter') {
-                console.log("fired");
-                input.focus();
+                document.activeElement.blur();
             }
         })
     }

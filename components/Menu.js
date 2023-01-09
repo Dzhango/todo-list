@@ -1,3 +1,5 @@
+import renderCacheComponents from "./../main.js"
+
 export default class Menu extends HTMLElement {
     constructor() {
         super();
@@ -8,5 +10,13 @@ export default class Menu extends HTMLElement {
         shadowRoot.appendChild(templateContent.cloneNode(true));
     }
 
-    connectedCallback() {}
+    connectedCallback() {
+        const lis = this.shadowRoot.querySelectorAll("li");
+        lis.forEach(li => {
+            li.addEventListener("click", (e) => {
+                const cur = e.target.innerText;
+                renderCacheComponents(cur);
+            })
+        })
+    }
 }

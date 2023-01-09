@@ -7,10 +7,10 @@ div {
     flex-direction: row;
     gap: 0.5rem;
     max-width: 18rem;
-    word-wrap: break-word;
     border: 0.5px solid black;
     padding: 0.1rem 0.5rem 0.1rem 0.5rem;
     border-radius: 0.5rem;
+    line-height: 1.2rem;
 }
 
 [contenteditable] {

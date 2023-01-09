@@ -1,4 +1,4 @@
-div {
+/* div {
     min-width: 18rem;
 }
 
@@ -8,7 +8,6 @@ div {
     font-size: inherit;
     padding: 0.3rem;
     display: block;
-    /* width: 100%;s */
     overflow: hidden;
     resize: both;
     min-height: 1rem;
@@ -18,4 +17,18 @@ div {
 .textarea[contenteditable]:empty::before {
     content: "New Todo";
     color: gray;
+} */
+
+textarea {
+    display: none;
+    resize: none;
+    overflow: hidden;
+    min-width: 18rem;
+    min-height: 1.2rem;
+    height: 1.2rem;
+    /* max-height: 100px; */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.2rem;
+    padding: 0.3rem;
 }
