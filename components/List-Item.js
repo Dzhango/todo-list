@@ -13,7 +13,14 @@ export default class ListItem extends HTMLElement {
     }
 
     connectedCallback() {
+        const curList = sessionStorage.getItem("current");
         const checkbox = this.shadowRoot.querySelector("input");
+
+        if (curList === "Done") {
+            this.setAttribute("checked", "true");
+            checkbox.setAttribute("checked", "true");
+        }
+
         // const textArea = document.querySelector("input-item");   
         checkbox.addEventListener('click', (e) => {
             this.setAttribute("checked", `${e.target.checked}`);

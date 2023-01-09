@@ -27,10 +27,15 @@ function deployEventListeners() {
             handleAdd();
         } else if (cur === "more") {
             handleMore();
-        } else {
+        } else if (cur === "nightmode") {
             handleNightMode();
         }
 
+        if (!document.querySelector('#dropdown ul').contains(e.target) &&
+            !document.querySelector('#more').contains(e.target)) {
+            const menu = document.querySelector("#dropdown");
+            menu.style.display = "none";
+        }
     })
 }
 
@@ -40,7 +45,12 @@ export default function renderCacheComponents(curList) {
     if (curList === null) {
         return;
     }
-    sessionStorage.setItem("current", curList);
+
+    const currentMode = sessionStorage.getItem("nightmodeEnabled");
+    if (currentMode === "true") {
+        handleNightMode();
+    }
+
     const p = document.querySelector("header p");
     p.innerText = curList;
 
@@ -54,14 +64,22 @@ export default function renderCacheComponents(curList) {
     }
 
     list.forEach(element => {
+
         const span = document.createElement("span");
         span.setAttribute("slot", "text");
-
         span.setAttribute("contenteditable", "true");
         span.innerText = element;
-
         const listItem = document.createElement("list-item");
         listItem.appendChild(span);
+
+        // nightmode modifications
+        const nightMode = sessionStorage.getItem("nightmodeEnabled");
+        if (nightMode === "true") {
+            // handleNightMode();
+
+            const div = listItem.shadowRoot.querySelector("div");
+            div.classList.toggle("dark-mode");
+        }
 
         ul.prepend(listItem);
 
@@ -92,4 +110,33 @@ function handleMore() {
     })
 }
 
-function handleNightMode() {}
+function handleNightMode() {
+
+    // toggle dark mode
+    const currentMode = sessionStorage.getItem("nightmodeEnabled");
+    if (currentMode === "true") {
+        sessionStorage.setItem("nightmodeEnabled", "false");
+    } else {
+        sessionStorage.setItem("nightmodeEnabled", "true");
+    }
+    const body = document.querySelector("body");
+    body.classList.toggle("dark-mode");
+
+    const lis = document.querySelectorAll("list-item");
+    lis.forEach(li => {
+        const div = li.shadowRoot.querySelector("div");
+        div.classList.toggle("dark-mode");
+    })
+
+    const divs = document.querySelectorAll(".menu");
+    divs.forEach(div => {
+        div.classList.toggle("dark-mode");
+        div.classList.toggle("dark-mode-border")
+    })
+
+    //input-item:
+    //back
+
+    //icons:grey background 
+    // fa-light-switch for icons
+}

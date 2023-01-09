@@ -5,7 +5,7 @@ body {
     justify-content: center;
     align-items: center;
     flex: 1;
-    gap: 10px;
+    gap: 2rem;
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
     margin: auto;
@@ -66,13 +66,15 @@ span {
 /* BOTTOM MENU */
 
 footer {
+    margin-top: 200px;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
+    bottom: 1rem;
     /* justify-content: space-evenly; */
     justify-content: space-evenly;
-    position: fixed;
-    bottom: 1rem;
+    position: absolute;
+    /* bottom: 1rem; */
     gap: 0.5rem;
     flex-wrap: wrap;
     /* position: absolute; */
@@ -90,6 +92,14 @@ footer {
     border-radius: 1rem;
     max-width: 5rem;
 }
+
+
+/* Change for onclick for menu */
+
+
+/* #more:hover i {
+    transform: rotate(270deg);
+} */
 
 #dropdown {
     display: none;
@@ -116,4 +126,13 @@ footer {
     padding: 0.5rem;
     border-radius: 0.5rem;
     background-color: grey;
+}
+
+.dark-mode {
+    background-color: black;
+    color: white;
+}
+
+.dark-mode-border {
+    border: 1px solid white;
 }
