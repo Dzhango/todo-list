@@ -1,89 +1,158 @@
 import ListItem from "./components/List-Item.js";
-import Menu from "./components/Menu.js";
 import InputItem from "./components/Input-Item.js";
-window.addEventListener("load", init);
 customElements.define("list-item", ListItem);
-customElements.define("menu-block", Menu);
 customElements.define("input-item", InputItem);
 
-function init() {
-    console.log("DOM LOADED");
+window.addEventListener("load", init);
 
-    deployEventListeners();
-    renderCacheComponents("Inbox");
+function init() {
+    attachEventListeners();
+    renderPage();
 }
 
-function deployEventListeners() {
+function devAlert(e) {
+    console.trace();
+    console.error(e)
+}
+
+function attachEventListeners() {
     window.addEventListener("click", (e) => {
-        let cur = null;
-        if (e.target.tagName === "DIV") {
-            cur = e.target.id;
-        } else if (e.target.tagName === "I") {
-            const classes = e.target.classList;
-            cur = classes[classes.length - 1]
-        }
-
-        if (cur === "add") {
-            handleAdd();
-        } else if (cur === "more") {
-            handleMore();
-        } else if (cur === "nightmode") {
-            handleNightMode();
-        }
-
-        if (!document.querySelector('#dropdown ul').contains(e.target) &&
-            !document.querySelector('#more').contains(e.target)) {
-            const menu = document.querySelector("#dropdown");
-            menu.style.display = "none";
-        }
+        attachEventHandlers(e.target);
     })
 }
 
-export default function renderCacheComponents(curList) {
-    // localStorage: inbox, todo, done lists
-    // preload todo components
-    if (curList === null) {
-        return;
-    }
-
-    const currentMode = sessionStorage.getItem("nightmodeEnabled");
-    if (currentMode === "true") {
+function attachEventHandlers(targetNode) {
+    // WHAT TO DO? 
+    if (targetNode.classList.contains("add")) {
+        handleAdd();
+    } else if (targetNode.classList.contains("more")) {
+        handleMore();
+    } else if (targetNode.classList.contains("nightmode")) {
         handleNightMode();
     }
 
-    const p = document.querySelector("header p");
-    p.innerText = curList;
+    // CLICK AWAY, HIDE MENU, WHERE TO PUT THIS CHUNK??
+    if (!document.querySelector('#dropdown ul').contains(targetNode) &&
+        !document.querySelector('.more').contains(targetNode)) {
+        const menu = document.querySelector("#dropdown");
+        menu.style.display = "none";
+        const icon = document.querySelector(".more i");
+        icon.classList.toggle("rotate");
+    }
+}
 
-    const ul = document.querySelector("ul");
-    ul.innerHTML = "";
+export function renderPage() {
+    // Update item 
+    const currentListName = sessionStorage.getItem('current') === null ? 'Inbox' : sessionStorage.getItem('current');
 
-    const list = JSON.parse(localStorage.getItem(curList));
-    if (list === null) {
-        console.log("list is null");
+    const itemsList = getList(currentListName);
+
+    if (itemsList === null) {
+        devAlert()
         return;
     }
 
-    list.forEach(element => {
+    const nightmodeEnabled = sessionStorage.getItem("nightmodeEnabled");
+    renderNightmode(nightmodeEnabled);
 
-        const span = document.createElement("span");
-        span.setAttribute("slot", "text");
-        span.setAttribute("contenteditable", "true");
-        span.innerText = element;
-        const listItem = document.createElement("list-item");
-        listItem.appendChild(span);
+    renderTodoItems(itemsList);
 
-        // nightmode modifications
-        const nightMode = sessionStorage.getItem("nightmodeEnabled");
-        if (nightMode === "true") {
-            // handleNightMode();
+    // update header
+    const p = document.querySelector("header p");
+    p.innerText = currentListName;
 
-            const div = listItem.shadowRoot.querySelector("div");
-            div.classList.toggle("dark-mode");
+}
+
+export function renderTodoItems(itemsList) {
+
+    try {
+        const list = JSON.parse(itemsList);
+        const ul = document.querySelector("ul");
+        ul.innerHTML = "";
+        const nightmodeEnabled = sessionStorage.getItem("nightmodeEnabled");
+        list.forEach(element => {
+            renderItem(element, { parent: ul, nightmodeEnabled: nightmodeEnabled });
+        });
+    } catch (e) {
+        devAlert(e);
+    }
+}
+
+export function getList(listName) {
+    let output = localStorage.getItem(listName);
+    // if does not exist, create()
+    if (output === null) {
+        if (createNewList(listName)) {
+            output = localStorage.getItem(listName);
+        } else {
+            throw new Error("failed to create new list")
         }
+    }
+    return output;
+}
 
-        ul.prepend(listItem);
+export function createNewList(listName) {
+    try {
+        localStorage.setItem(listName, '[]');
+        return true;
+    } catch (e) {
+        throw new Error(e);
+    }
+}
 
-    });
+export function getCurrentListName() {
+    return sessionStorage.getItem('current') === null ? undefined : sessionStorage.getItem('current');;
+}
+
+export function renderItem(el, options) {
+
+    const span = document.createElement("span");
+    span.setAttribute("slot", "text");
+    span.setAttribute("contenteditable", "true");
+    span.innerText = el;
+    const listItem = document.createElement("list-item");
+    listItem.appendChild(span);
+
+    const enabled = (options.nightmodeEnabled === 'true') ? 'true' : 'false';
+    listItem.setAttribute("nightmode", enabled);
+
+    options.parent.append(listItem);
+}
+
+export function updateTodoItem(current) {
+    const currentListName = getCurrentListName();
+    const todoListString = getList(currentListName);
+    const todoList = JSON.parse(todoListString);
+
+    const id = parseInt(current.id);
+    const updatedText = current.querySelector("span").innerText;
+    todoList[id] = updatedText;
+
+    updateStorage(currentListName, todoList);
+}
+
+export function updateStorage(currentListName, todoList) {
+    localStorage.setItem(currentListName, JSON.stringify(todoList));
+}
+
+function renderNightmode(enabled) {
+    const body = document.querySelector('body');
+    if (enabled === "true") {
+        body.classList.add('dark-mode');
+        const divs = document.querySelectorAll(".menu");
+        divs.forEach(div => {
+            div.classList.add("dark-mode");
+            div.classList.add("dark-mode-border")
+        })
+    } else {
+        body.classList.remove('dark-mode');
+
+        const divs = document.querySelectorAll(".menu");
+        divs.forEach(div => {
+            div.classList.remove("dark-mode");
+            div.classList.remove("dark-mode-border")
+        })
+    }
 }
 
 function handleAdd() {
@@ -105,9 +174,13 @@ function handleMore() {
     lis.forEach(li => {
         li.addEventListener("click", (e) => {
             const cur = e.target.innerText;
-            renderCacheComponents(cur);
+            sessionStorage.setItem('current', cur)
+            renderPage(cur);
         })
     })
+
+    const icon = document.querySelector(".more i");
+    icon.classList.toggle("rotate");
 }
 
 function handleNightMode() {
@@ -116,27 +189,19 @@ function handleNightMode() {
     const currentMode = sessionStorage.getItem("nightmodeEnabled");
     if (currentMode === "true") {
         sessionStorage.setItem("nightmodeEnabled", "false");
+
+        const lis = document.querySelectorAll("list-item");
+        lis.forEach(li => {
+            li.setAttribute("nightmode", 'false')
+        })
+        renderNightmode("false");
     } else {
         sessionStorage.setItem("nightmodeEnabled", "true");
+
+        const lis = document.querySelectorAll("list-item");
+        lis.forEach(li => {
+            li.setAttribute("nightmode", 'true')
+        })
+        renderNightmode("true");
     }
-    const body = document.querySelector("body");
-    body.classList.toggle("dark-mode");
-
-    const lis = document.querySelectorAll("list-item");
-    lis.forEach(li => {
-        const div = li.shadowRoot.querySelector("div");
-        div.classList.toggle("dark-mode");
-    })
-
-    const divs = document.querySelectorAll(".menu");
-    divs.forEach(div => {
-        div.classList.toggle("dark-mode");
-        div.classList.toggle("dark-mode-border")
-    })
-
-    //input-item:
-    //back
-
-    //icons:grey background 
-    // fa-light-switch for icons
 }

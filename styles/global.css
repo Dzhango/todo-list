@@ -128,6 +128,16 @@ footer {
     background-color: grey;
 }
 
+#dropdown ul li:hover {
+    opacity: 0.5;
+}
+
+.add:hover,
+.nightmode:hover,
+.more:hover {
+    background-color: gray;
+}
+
 .dark-mode {
     background-color: black;
     color: white;
@@ -136,3 +146,21 @@ footer {
 .dark-mode-border {
     border: 1px solid white;
 }
+
+.rotate {
+    /* animation-name: rotation;
+    animation-duration: 1s;
+    animation-fill-mode: forwards; */
+    transform: rotate(-90deg);
+}
+
+
+/* 
+@keyframes rotation {
+    50% {
+        transform: rotate(-45deg)
+    }
+    100% {
+        transform: rotate(-90deg);
+    }
+} */

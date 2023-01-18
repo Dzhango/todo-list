@@ -12,11 +12,19 @@
     <link rel="preload" href="./styles/list-item.css" as="style">
 </head>
 <!-- 
-    5. Add mobile swiping
+    5. Add mobile swiping(stuck on touch api)
+    /*
+    https://medium.com/@deepakkadarivel/drag-and-drop-dnd-for-mobile-browsers-fc9bcd1ad3c5
+    https://web.dev/drag-and-drop/
+    */
+
+    0. Caching html in session storage? 
     1. Fix double enter bug (empty todo)
     2. In todo: swipe right move to next bucket, swipe left perm delete
-    3. Fix nightmode enabled reload bug
+    3. Fix nightmode enabled reload bug, (new todos no border)
     4. How would I imitate state (session storage?)
+    5. Mobile vs Browser in JavaScript
+    6. How to not get sidetracked by minor issues/bugs?
  -->
 
 <body>
@@ -69,12 +77,12 @@
                 <li>Done</li>
             </ul>
         </div>
-        <div class="menu" id="nightmode"><i class="fas fa-moon fa-lg nightmode"></i></div>
-        <div class="menu" id="more">
+        <div class="menu nightmode"><i class="fas fa-moon fa-lg nightmode"></i></div>
+        <div class="menu more">
             <i class="fa-solid fa-play fa-md more"></i>
         </div>
 
-        <div class="menu" id="add"> <i class="fa fa-plus fa-lg add" aria-hidden="true "></i></div>
+        <div class="menu add"> <i class="fa fa-plus fa-lg add" aria-hidden="true"></i></div>
 
     </footer>
 </body>

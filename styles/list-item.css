@@ -80,5 +80,9 @@ div {
 .dark-mode {
     background-color: black;
     color: white;
-    border: 0.5px solid white;
+    border: 1px solid white;
+}
+
+.over {
+    border: 2px dotted #666;
 }
